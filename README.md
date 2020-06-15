@@ -1,4 +1,6 @@
-# ear-training
+This ear-training tool will test the user's knowledge of ear training by playing a piano note, followed by a randomly selected piano notes. The user will have to determine what interval was just played.
+
+<!-- # ear-training
 
 ## Project setup
 ```
@@ -21,4 +23,4 @@ npm run lint
 ```
 
 ### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+See [Configuration Reference](https://cli.vuejs.org/config/). -->
