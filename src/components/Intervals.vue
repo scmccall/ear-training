@@ -1,7 +1,8 @@
 <template>
   <div class="hello">
     <h1>Ear Training</h1>
-    <ul v-for="interval in intervals" :key="interval">
+    <button v-on:click='playNote()'>Play</button>
+    <ul class="interval-button" v-for="interval in intervals" :key="interval">
       {{ interval }}
     </ul>
   </div>
@@ -13,6 +14,7 @@ export default {
   props: {
 
   },
+
   data: function() {
     return {
       intervals: {
@@ -29,9 +31,25 @@ export default {
         min7: "Minor Seventh",
         maj7: "Major Seventh",
         oct: "Octave"
-      }
+      },
+      middleC: "ear-training/src/assets/audio/Piano.pp.C5.aiff"
     }
   },
+
+  methods: {
+    playNote: function() {
+      let note = new Audio(this.getNote);
+      alert(note);
+      note.play();
+      alert("note played successfully");
+    }
+  },
+
+  computed: {
+    getNote: function() {
+      return this.middleC;
+    }
+  }
 }
 </script>
 
@@ -51,4 +69,10 @@ li {
 a {
   color: #42b983;
 }
+
+.interval-button {
+  width: 20rem;
+  border: solid lightseagreen;
+}
+
 </style>
