@@ -2,8 +2,8 @@
   <div class="hello">
     <h1>Ear Training</h1>
     <button v-on:click='playNote()'>Play</button>
-    <ul class="interval-button" v-for="interval in intervals" :key="interval">
-      {{ interval }}
+    <ul class="interval-button" v-for="interval in intervals" :key="interval.name">
+      {{ interval.name }}
     </ul>
   </div>
 </template>
@@ -17,7 +17,35 @@ export default {
 
   data: function() {
     return {
-      intervals: {
+      intervals: [
+        { name: "Unison",
+          stepsfromC: 0 },
+        { name: "Minor Second",
+          stepsfromC: 1 },
+        { name: "Major Second",
+          stepsfromC: 2 },
+        { name: "Minor Third",
+          stepsfromC: 3 },
+        { name: "Major Third",
+          stepsfromC: 4 },
+        { name: "Perfect Fourth",
+          stepsfromC: 5 },
+        { name: "Tritone",
+          stepsfromC: 6 },
+        { name: "Perfect Fifth",
+          stepsfromC: 7 },
+        { name: "Minor Sixth",
+          stepsfromC: 8 },
+        { name: "Major Sixth",
+          stepsfromC: 9 },
+        { name: "Minor Seventh",
+          stepsfromC: 10 },
+        { name: "Major Seventh",
+          stepsfromC: 11 },
+        { name: "Octave",
+          stepsfromC: 12}
+      ],
+/*       intervals: {
         uni: "Unison",
         min2: "Minor Second",
         maj2: "Major Second",
@@ -31,17 +59,21 @@ export default {
         min7: "Minor Seventh",
         maj7: "Major Seventh",
         oct: "Octave"
-      },
-      middleC: "ear-training/src/assets/audio/Piano.pp.C5.aiff"
+      }, */
+      middleC: '../assets/audio/Piano.pp.C5.aiff'
+      
     }
   },
 
   methods: {
     playNote: function() {
+
+      console.log(`this.getNote = ${this.getNote}`);
       let note = new Audio(this.getNote);
-      alert(note);
+      console.log(note);
       note.play();
-      alert("note played successfully");
+      console.log(`playedparts = ${note.played}`);
+      // alert("note played successfully");
     }
   },
 
