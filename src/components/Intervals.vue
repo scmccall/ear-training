@@ -1,8 +1,13 @@
 <template>
   <div class="hello">
     <h1>Ear Training</h1>
-    <button v-on:click='playNote()'>Play</button>
-    <ul class="interval-button" v-for="interval in intervals" :key="interval.name">
+    <button v-on:click='playNote'>Play</button>
+    <button v-on:click='selectInterval'>Pick Interval</button>
+    <p> The selected interval is {{ selectedInterval.name }}</p>
+    <ul
+      class="interval-button"
+      v-for="interval in intervals"
+      :key="interval.name">
       {{ interval.name }}
     </ul>
   </div>
@@ -17,70 +22,77 @@ export default {
 
   data: function() {
     return {
+      // Array of Interval objects that describe musical intervals spanning
+      // from Unison to Octave
+        // name: (String) name of the interval
+        // stepsFromC: (Int) number of steps from Middle C (aka C4)
       intervals: [
         { name: "Unison",
-          stepsfromC: 0 },
+          stepsFromC: 0 },
         { name: "Minor Second",
-          stepsfromC: 1 },
+          stepsFromC: 1 },
         { name: "Major Second",
-          stepsfromC: 2 },
+          stepsFromC: 2 },
         { name: "Minor Third",
-          stepsfromC: 3 },
+          stepsFromC: 3 },
         { name: "Major Third",
-          stepsfromC: 4 },
+          stepsFromC: 4 },
         { name: "Perfect Fourth",
-          stepsfromC: 5 },
+          stepsFromC: 5 },
         { name: "Tritone",
-          stepsfromC: 6 },
+          stepsFromC: 6 },
         { name: "Perfect Fifth",
-          stepsfromC: 7 },
+          stepsFromC: 7 },
         { name: "Minor Sixth",
-          stepsfromC: 8 },
+          stepsFromC: 8 },
         { name: "Major Sixth",
-          stepsfromC: 9 },
+          stepsFromC: 9 },
         { name: "Minor Seventh",
-          stepsfromC: 10 },
+          stepsFromC: 10 },
         { name: "Major Seventh",
-          stepsfromC: 11 },
+          stepsFromC: 11 },
         { name: "Octave",
-          stepsfromC: 12}
+          stepsFromC: 12}
       ],
-/*       intervals: {
-        uni: "Unison",
-        min2: "Minor Second",
-        maj2: "Major Second",
-        min3: "Minor Third",
-        maj3: "Major Third",
-        fourth: "Perfect Fourth",
-        tri: "Tritone",
-        fifth: "Perfect Fifth",
-        min6: "Minor Sixth",
-        maj6: "Major Sixth",
-        min7: "Minor Seventh",
-        maj7: "Major Seventh",
-        oct: "Octave"
-      }, */
-      middleC: '../assets/audio/Piano.pp.C5.aiff'
+      selectedInterval: "",
+
+      middleC: 'ear-training/src/assets/audio/songFileExample.mp3'
       
     }
   },
 
   methods: {
-    playNote: function() {
+    // Selects a note 
+    getNote: function() {
+      return this.middleC;
+    },
 
+    // Plays a note, selected via getNote()
+    playNote: function() {
       console.log(`this.getNote = ${this.getNote}`);
       let note = new Audio(this.getNote);
       console.log(note);
       note.play();
       console.log(`playedparts = ${note.played}`);
       // alert("note played successfully");
+    },
+
+    // Returns a random Interval from an array of Interval objects
+    randomInterval: function(array) {
+      let rand = Math.floor(Math.random()*array.length);
+      return array[rand];
+    },
+
+    // returns an interval, selected by calling randomInterval
+    selectInterval: function() {
+      let interval = this.randomInterval(this.intervals);
+      this.selectedInterval = interval;
+      return interval.name
     }
   },
 
   computed: {
-    getNote: function() {
-      return this.middleC;
-    }
+    
   }
 }
 </script>
@@ -105,6 +117,33 @@ a {
 .interval-button {
   width: 20rem;
   border: solid lightseagreen;
+}
+
+.interval-button:hover {
+  border: solid #15cac1;
+  background-color: rgb(21, 202, 193, .1);
+}
+
+.interval-button:active {
+  border: solid rgb(19, 199, 58);
+  background-color: rgb(19, 199, 58, .1);
+}
+
+.interval-button:hover {
+  border: solid #15cac1;
+  background-color: rgb(21, 202, 193, .1);
+}
+
+/* CHANGE THIS */
+.interval-button:hover .correct{
+  border: solid #1518ca;
+  background-color: rgba(21, 39, 202, 0.1);
+}
+
+/* CHANGE THIS */
+.interval-button:hover .incorrect{
+  border: solid #ca3f15;
+  background-color: rgba(202, 57, 21, 0.1);
 }
 
 </style>
