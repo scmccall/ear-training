@@ -4,11 +4,13 @@
     <button v-on:click='playNote'>Play</button>
     <button v-on:click='selectInterval'>Pick Interval</button>
     <p> The selected interval is {{ selectedInterval.name }}</p>
+    <p v-if="answerSelected">{{ correctOrNot }}</p>
     <ul
       class="interval-button"
       v-for="interval in intervals"
-      :key="interval.name">
-      {{ interval.name }}
+      :key="interval.name"
+      @click="[checkIfCorrect($event, interval), answerSelected=true]">
+        {{ interval.name }}
     </ul>
   </div>
 </template>
@@ -54,9 +56,20 @@ export default {
         { name: "Octave",
           stepsFromC: 12}
       ],
+      // the randomly selected interval
       selectedInterval: "",
 
-      middleC: 'ear-training/src/assets/audio/songFileExample.mp3'
+      middleC: 'ear-training/src/assets/audio/songFileExample.mp3',
+
+      // .correct and .incorrect CSS classes as variables
+      correctClass: "correct",
+      incorrectClass: "incorrect",
+
+      // True if user has clicked an Interval, False otherwise
+      answerSelected: false,
+
+      // The text user will see once they selest an answer
+      correctOrNot: "",
       
     }
   },
@@ -85,19 +98,31 @@ export default {
 
     // returns an interval, selected by calling randomInterval
     selectInterval: function() {
+      this.answerSelected = false;
       let interval = this.randomInterval(this.intervals);
       this.selectedInterval = interval;
       return interval.name
+    },
+
+    checkIfCorrect: function($event, interval) {
+      console.log(`interval = ${interval.name}`);
+      if (interval === this.selectedInterval) {
+        console.log(`true: ${interval} === ${this.selectedInterval}`);
+        this.correctOrNot = "Correct! Click Play to try again";
+      } else {
+        console.log(`false: ${interval} =/= ${this.selectedInterval}`);
+        this.correctOrNot = `Sorry, the correct answer is ${this.selectedInterval.name}`
+      }
     }
+
   },
 
   computed: {
-    
+
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;
@@ -134,14 +159,14 @@ a {
   background-color: rgb(21, 202, 193, .1);
 }
 
-/* CHANGE THIS */
-.interval-button:hover .correct{
+/* CHANGE THE COLOURS HERE */
+.correct{
   border: solid #1518ca;
   background-color: rgba(21, 39, 202, 0.1);
 }
 
-/* CHANGE THIS */
-.interval-button:hover .incorrect{
+/* CHANGE THE COLOURS HERE */
+.incorrect{
   border: solid #ca3f15;
   background-color: rgba(202, 57, 21, 0.1);
 }
