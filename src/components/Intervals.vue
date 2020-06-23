@@ -6,33 +6,23 @@
 </template>
 
 <script>
-
 const someSound = require("../assets/audio/middleC.mp3");
 
 export default {
-  name: 'Intervals',
-  data: function() {
-    return {
-      someSound,
-    }
-  },
-
+  name: "Intervals",
+  data: () => ({
+    someSound
+  }),
   methods: {
-    // Selects a note 
-    getNote: function() {
-      return this.someSound;
-    },
+    playNote() {
+      console.log('calling playNote()');
+      let note = new Audio(this.someSound);
 
-    // Plays a note, selected via getNote()
-    playNote: function() {
-      let note = new Audio(this.getNote);
-      console.log(`note = ${note.src}`);
-      
-      note.addEventListener("canplay", () => {
-        console.log(`sound has been loaded`);
+      note.addEventListener("canplaythrough", () => { 
+        console.log('event listener called');
         note.play();
       });
-    },
-  },
-}
+    }
+  }
+};
 </script>
