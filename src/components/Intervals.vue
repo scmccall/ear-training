@@ -8,6 +8,8 @@
 <script>
 const someSound = require("../assets/audio/middleC.mp3");
 
+console.log(`somesound = ${someSound}`);
+
 export default {
   name: "Intervals",
   data: () => ({
