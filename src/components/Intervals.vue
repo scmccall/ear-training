@@ -5,13 +5,15 @@
     <button v-on:click='selectInterval'>Pick Interval</button>
     <p> The selected interval is {{ selectedInterval.name }}</p>
     <p v-if="answerSelected">{{ correctOrNot }}</p>
-    <ul
-      class="interval-button"
-      v-for="interval in intervals"
-      :key="interval.name"
-      @click="[checkIfCorrect($event, interval), answerSelected=true]">
-        {{ interval.name }}
-    </ul>
+    <div v-if="selectedInterval != ''" class=interval-list>
+      <ul
+        class="interval-button"
+        v-for="interval in intervals"
+        :key="interval.name"
+        @click="[checkIfCorrect($event, interval), answerSelected=true]">
+          {{ interval.name }}
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -82,6 +84,7 @@ export default {
 
     // Plays a note, selected via getNote()
     playNote: function() {
+      this.selectInterval();
       console.log(`this.getNote = ${this.getNote}`);
       let note = new Audio(this.getNote);
       console.log(note);
