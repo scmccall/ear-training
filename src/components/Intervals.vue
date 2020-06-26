@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h1>Ear Training</h1>
-    <button v-on:click='playNote'>Play</button>
+    <button v-on:click='playButton'>Play</button>
     <button v-on:click='selectInterval'>Pick Interval</button>
     <p> The selected interval is {{ selectedInterval.name }}</p>
     <p v-if="answerSelected">{{ correctOrNot }}</p>
@@ -18,6 +18,9 @@
 </template>
 
 <script>
+
+const C4 = require("../assets/audio/C4.mp3");
+
 export default {
   name: 'Intervals',
   props: {
@@ -77,20 +80,25 @@ export default {
   },
 
   methods: {
-    // Selects a note 
-    getNote: function() {
-      return this.middleC;
+
+    playButton() {
+      this.selectInterval();
+      console.log(`this.getFirstNote() = ${this.getFirstNote()}`);
+      let note1 = this.getFirstNote();
+      this.playNote(note1);
+      // let note2 = new Audio(this.getSecondNote());
     },
 
-    // Plays a note, selected via getNote()
-    playNote: function() {
-      this.selectInterval();
-      console.log(`this.getNote = ${this.getNote}`);
-      let note = new Audio(this.getNote);
-      console.log(note);
-      note.play();
-      console.log(`playedparts = ${note.played}`);
-      // alert("note played successfully");
+    getFirstNote() {
+      return C4;
+    },
+
+    playNote(note1) {
+      let note = new Audio(note1);
+      note.addEventListener("canplaythrough", () => { 
+        console.log('event listener called');
+        note.play();
+      })
     },
 
     // Returns a random Interval from an array of Interval objects
