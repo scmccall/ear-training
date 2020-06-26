@@ -6,7 +6,7 @@
 </template>
 
 <script>
-const someSound = require("../assets/audio/middleC.mp3");
+const someSound = require("../assets/audio/test.mp3");
 
 console.log(`somesound = ${someSound}`);
 
