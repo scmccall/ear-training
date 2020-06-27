@@ -20,6 +20,7 @@
 <script>
 
 const C4 = require("../assets/audio/C4.mp3");
+const Fs4 = require("../assets/audio/Fs4.mp3");
 
 export default {
   name: 'Intervals',
@@ -75,6 +76,9 @@ export default {
 
       // The text user will see once they selest an answer
       correctOrNot: "",
+
+      // Number of miliseconds each note will play
+      noteTimeout: 1500,
       
     }
   },
@@ -83,22 +87,28 @@ export default {
 
     playButton() {
       this.selectInterval();
-      console.log(`this.getFirstNote() = ${this.getFirstNote()}`);
-      let note1 = this.getFirstNote();
-      this.playNote(note1);
-      // let note2 = new Audio(this.getSecondNote());
+      let firstNote = new Audio(this.getFirstNote());
+      let secondNote = new Audio(this.getSecondNote());
+      this.playNote(firstNote)
+      setTimeout(() => {
+              this.playNote(secondNote);
+              console.log('yelp!');
+      }, this.noteTimeout);
     },
 
     getFirstNote() {
       return C4;
     },
 
-    playNote(note1) {
-      let note = new Audio(note1);
-      note.addEventListener("canplaythrough", () => { 
-        console.log('event listener called');
-        note.play();
-      })
+    getSecondNote() {
+      return Fs4;
+    },
+
+    playNote(note) {
+      note.play();
+      setTimeout(() => {
+        note.pause();
+      }, this.noteTimeout);
     },
 
     // Returns a random Interval from an array of Interval objects
