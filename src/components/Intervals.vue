@@ -2,8 +2,6 @@
   <div class="hello">
     <h1>Ear Training</h1>
     <button v-on:click='playButton'>Play</button>
-    <button v-on:click='selectInterval'>Pick Interval</button>
-    <p> The selected interval is {{ selectedInterval.name }}</p>
     <p v-if="answerSelected">{{ correctOrNot }}</p>
     <div v-if="selectedInterval != ''" class=interval-list>
       <ul
@@ -20,7 +18,18 @@
 <script>
 
 const C4 = require("../assets/audio/C4.mp3");
-const Fs4 = require("../assets/audio/Fs4.mp3");
+const Db4 = require("../assets/audio/Db4.mp3");
+const D4 = require("../assets/audio/D4.mp3");
+const Eb4 = require("../assets/audio/Eb4.mp3");
+const E4 = require("../assets/audio/E4.mp3");
+const F4 = require("../assets/audio/F4.mp3");
+const Gb4 = require("../assets/audio/Gb4.mp3");
+const G4 = require("../assets/audio/G4.mp3");
+const Ab4 = require("../assets/audio/Ab4.mp3");
+const A4 = require("../assets/audio/A4.mp3");
+const Bb4 = require("../assets/audio/Bb4.mp3");
+const B4 = require("../assets/audio/B4.mp3");
+const C5 = require("../assets/audio/C5.mp3");
 
 export default {
   name: 'Intervals',
@@ -36,31 +45,44 @@ export default {
         // stepsFromC: (Int) number of steps from Middle C (aka C4)
       intervals: [
         { name: "Unison",
-          stepsFromC: 0 },
+          stepsFromC: 0,
+          note: C4 },
         { name: "Minor Second",
-          stepsFromC: 1 },
+          stepsFromC: 1,
+          note: Db4 },
         { name: "Major Second",
-          stepsFromC: 2 },
+          stepsFromC: 2,
+          note: D4 },
         { name: "Minor Third",
-          stepsFromC: 3 },
+          stepsFromC: 3,
+          note: Eb4 },
         { name: "Major Third",
-          stepsFromC: 4 },
+          stepsFromC: 4,
+          note: E4 },
         { name: "Perfect Fourth",
-          stepsFromC: 5 },
+          stepsFromC: 5,
+          note: F4 },
         { name: "Tritone",
-          stepsFromC: 6 },
+          stepsFromC: 6,
+          note: Gb4 },
         { name: "Perfect Fifth",
-          stepsFromC: 7 },
+          stepsFromC: 7,
+          note: G4 },
         { name: "Minor Sixth",
-          stepsFromC: 8 },
+          stepsFromC: 8,
+          note: Ab4 },
         { name: "Major Sixth",
-          stepsFromC: 9 },
+          stepsFromC: 9,
+          note: A4 },
         { name: "Minor Seventh",
-          stepsFromC: 10 },
+          stepsFromC: 10,
+          note: Bb4 },
         { name: "Major Seventh",
-          stepsFromC: 11 },
+          stepsFromC: 11,
+          note: B4 },
         { name: "Octave",
-          stepsFromC: 12}
+          stepsFromC: 12,
+          note: C5 },
       ],
       // the randomly selected interval
       selectedInterval: "",
@@ -91,8 +113,7 @@ export default {
       let secondNote = new Audio(this.getSecondNote());
       this.playNote(firstNote)
       setTimeout(() => {
-              this.playNote(secondNote);
-              console.log('yelp!');
+        this.playNote(secondNote);
       }, this.noteTimeout);
     },
 
@@ -101,7 +122,7 @@ export default {
     },
 
     getSecondNote() {
-      return Fs4;
+      return this.selectedInterval.note;
     },
 
     playNote(note) {
@@ -126,13 +147,11 @@ export default {
     },
 
     checkIfCorrect: function($event, interval) {
-      console.log(`interval = ${interval.name}`);
       if (interval === this.selectedInterval) {
-        console.log(`true: ${interval} === ${this.selectedInterval}`);
         this.correctOrNot = "Correct! Click Play to try again";
       } else {
-        console.log(`false: ${interval} =/= ${this.selectedInterval}`);
-        this.correctOrNot = `Sorry, the correct answer is ${this.selectedInterval.name}`
+        this.correctOrNot = `Sorry, the correct answer is ${this.selectedInterval.name}. `
+        + `Click Play to try again`;
       }
     }
 
