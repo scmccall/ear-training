@@ -2,6 +2,14 @@
   <div class="hello">
     <h1>Ear Training</h1>
     <button v-on:click='playButton'>Play</button>
+    <button
+      v-on:click='replayButton'
+      v-if="selectedInterval != ''">
+        Replay
+    </button>
+    <p>You will hear two notes played one after the other.
+      Please select the interval that matches the two notes played.</p>
+    <p v-if="selectedInterval === ''">Click the play button to begin!</p>
     <p v-if="answerSelected">{{ correctOrNot }}</p>
     <div v-if="selectedInterval != ''" class=interval-list>
       <ul
@@ -100,7 +108,7 @@ export default {
       correctOrNot: "",
 
       // Number of miliseconds each note will play
-      noteTimeout: 1500,
+      noteTimeout: 1800,
       
     }
   },
@@ -111,20 +119,28 @@ export default {
       this.selectInterval();
       let firstNote = new Audio(this.getFirstNote());
       let secondNote = new Audio(this.getSecondNote());
+      this.playTwoNotes(firstNote, secondNote);
+    },
+
+    // Fetches the first note played
+    getFirstNote() {
+      return C4;
+    },
+
+    // Fetches the second Note played from the selectedInterval object
+    getSecondNote() {
+      return this.selectedInterval.note;
+    },
+
+    // Takes two Audio objects and calls playNote() with a delay between them
+    playTwoNotes(firstNote, secondNote) {
       this.playNote(firstNote)
       setTimeout(() => {
         this.playNote(secondNote);
       }, this.noteTimeout);
     },
 
-    getFirstNote() {
-      return C4;
-    },
-
-    getSecondNote() {
-      return this.selectedInterval.note;
-    },
-
+    // Takes an Audio object and plays the file, then pauses it
     playNote(note) {
       note.play();
       setTimeout(() => {
@@ -146,6 +162,14 @@ export default {
       return interval.name
     },
 
+
+    replayButton() {
+      let firstNote = new Audio(this.getFirstNote());
+      let secondNote = new Audio(this.getSecondNote());
+      this.playTwoNotes(firstNote, secondNote);
+    },
+
+    // Takes the user-selected interval and compares against selectedInterval variable
     checkIfCorrect: function($event, interval) {
       if (interval === this.selectedInterval) {
         this.correctOrNot = "Correct! Click Play to try again";
@@ -167,14 +191,23 @@ export default {
 h3 {
   margin: 40px 0 0;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 }
+
+ul .interval-list {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+}
+
 li {
   display: inline-block;
   margin: 0 10px;
 }
+
 a {
   color: #42b983;
 }
